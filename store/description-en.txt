@@ -1,0 +1,40 @@
+Memos Web Clipper — Save thoughts and clip web pages to your self-hosted Memos instance.
+
+A lightweight Chrome extension designed for Memos (https://github.com/usememos/memos) users. Quickly capture ideas, clip entire articles, or save selected text — all sent directly to your own Memos server.
+
+⸻ Features ⸻
+
+✦ Quick Thought Capture
+Open the popup, type your idea, save. Zero friction.
+
+✦ Full Page Clipping
+Toggle the globe icon to extract article content as clean Markdown (powered by Readability + Turndown). Your notes are added on top.
+
+✦ Selected Text Clipping
+Right-click any selected text → "Send selected text to Memos". The quote, source URL, and your comments are saved together.
+
+✦ File Attachments
+Upload files directly to your memos via the built-in paperclip button.
+
+✦ Auto Tagging
+Clipped content is automatically tagged (default: #webclipper) for easy filtering in Memos.
+
+✦ Multi-language Support
+Supports English, Simplified Chinese, Japanese, and Korean. Follows browser language by default, with manual override available in Settings.
+
+⸻ How It Works ⸻
+
+1. Install the extension and open Settings
+2. Enter your Memos instance URL (e.g. https://memos.example.com)
+3. Create a Personal Access Token in Memos (Settings → Access Tokens) and paste it
+4. Start clipping!
+
+⸻ Requirements ⸻
+
+• A running Memos instance (v0.24+)
+• Chrome 102+ (Manifest V3)
+
+⸻
+
+Open source: https://github.com/TJKkking/memos-chrome-extension
+License: MIT

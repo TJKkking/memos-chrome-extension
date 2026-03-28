@@ -1,0 +1,40 @@
+Memos Web Clipper — 将想法和网页内容保存到你自托管的 Memos 实例。
+
+一个为 Memos (https://github.com/usememos/memos) 用户打造的轻量级 Chrome 扩展。快速记录灵感、剪藏整篇文章、或保存选中文本 — 一切直接发送到你自己的 Memos 服务器。
+
+⸻ 功能特点 ⸻
+
+✦ 快速记录想法
+打开弹窗，输入想法，保存。零摩擦。
+
+✦ 整页剪藏
+点击地球图标，自动提取文章正文为 Markdown（基于 Readability + Turndown）。你的笔记附加在顶部。
+
+✦ 选中文本剪藏
+选中网页文字 → 右键 →「发送选中文本到 Memos」。引文、来源链接和你的评论一起保存。
+
+✦ 文件附件
+通过内置的回形针按钮，直接上传文件到你的 Memo。
+
+✦ 自动打标签
+剪藏内容自动添加标签（默认：#webclipper），方便在 Memos 中筛选。
+
+✦ 多语言支持
+支持英语、简体中文、日语和韩语。默认跟随浏览器语言，也可在设置中手动切换。
+
+⸻ 使用方法 ⸻
+
+1. 安装扩展并打开设置页
+2. 输入你的 Memos 地址（例如 https://memos.example.com）
+3. 在 Memos 中创建 Access Token（设置 → Access Tokens），然后粘贴
+4. 开始剪藏！
+
+⸻ 前置要求 ⸻
+
+• 一个运行中的 Memos 实例（v0.24+）
+• Chrome 102+（Manifest V3）
+
+⸻
+
+开源地址：https://github.com/TJKkking/memos-chrome-extension
+许可证：MIT

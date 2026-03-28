@@ -1,0 +1,36 @@
+Chrome Web Store 审核时需要填写的权限说明
+========================================
+
+在提交扩展时，Chrome Web Store 会要求你为每个权限提供使用理由。
+以下是各权限的英文说明，直接复制粘贴到对应的表单字段中即可。
+
+---
+
+activeTab:
+This extension reads the content of the active tab only when the user explicitly
+clicks the web clip toggle button in the popup. It extracts article text using
+Mozilla Readability to convert it to Markdown for saving to Memos.
+
+storage:
+Used to persist user configuration (Memos server URL, access token, default tags,
+visibility setting, and language preference) via chrome.storage.sync.
+
+scripting:
+Required to execute a content script on the active tab to extract the page HTML
+for article clipping, and to capture precisely selected text for the right-click
+context menu feature.
+
+contextMenus:
+Adds a single right-click context menu item "Send selected text to Memos" that
+allows users to quickly clip selected text from any page.
+
+host_permissions (https://*/ and http://*/):
+The extension communicates with the user's self-hosted Memos server, which can
+be hosted at any URL. Broad host permissions are necessary because we cannot
+predict the user's server address. The extension only makes requests to the
+specific URL configured by the user in the Settings page.
+
+---
+
+"Single purpose" description (单一用途描述):
+Save thoughts and clip web pages to a user-configured self-hosted Memos instance.
