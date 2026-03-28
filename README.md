@@ -2,7 +2,7 @@
 
 A Chrome extension for [Memos](https://github.com/usememos/memos) — clip web pages, capture thoughts, and save everything to your self-hosted Memos instance.
 
-<img src="https://github.com/tjkkking/memos-chrome-extension/blob/main/public/screenshot.png" alt="Memos Web Clipper" width="500">
+<img src="./public/screenshot.png" alt="Memos Web Clipper" width="500">
 
 ## Features
 
