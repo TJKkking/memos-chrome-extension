@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: oklch(0.9818 0.0054 95.0986);
+  --color-foreground: oklch(0.2438 0.0269 95.7226);
+  --color-card: oklch(0.995 0.003 95);
+  --color-primary: oklch(0.45 0.08 250);
+  --color-primary-foreground: oklch(0.98 0.005 95);
+  --color-secondary: oklch(0.9245 0.0138 92.9892);
+  --color-secondary-foreground: oklch(0.4334 0.02 95);
+  --color-muted: oklch(0.94 0.012 93);
+  --color-muted-foreground: oklch(0.5559 0.0146 92.9892);
+  --color-border: oklch(0.8847 0.0069 97.3627);
+  --color-input: oklch(0.7621 0.0156 98.3528);
+  --color-destructive: oklch(0.55 0.2 27);
+  --color-ring: oklch(0.45 0.08 250);
+  --color-accent: oklch(0.94 0.012 93);
+  --color-accent-foreground: oklch(0.2438 0.0269 95.7226);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+}
+
+@layer components {
+  .field-input {
+    @apply w-full rounded-md border border-border bg-transparent px-3 py-1.5 text-sm text-foreground shadow-xs outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-ring;
+  }
+}

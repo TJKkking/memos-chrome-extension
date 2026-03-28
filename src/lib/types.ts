@@ -1,0 +1,41 @@
+export interface ExtensionConfig {
+  hostUrl: string;
+  token: string;
+  defaultTags: string;
+  defaultVisibility: "PRIVATE" | "PROTECTED" | "PUBLIC";
+}
+
+export interface ClipData {
+  title: string;
+  content: string;
+  byteLength: number;
+}
+
+export interface PageInfo {
+  title: string;
+  url: string;
+}
+
+export interface PendingClip {
+  type: "selection";
+  text: string;
+  url: string;
+  title: string;
+}
+
+export interface UploadedAttachment {
+  name: string;
+  filename: string;
+  type: string;
+  size: number;
+}
+
+export interface FormatInput {
+  thought: string;
+  tags: string;
+  includeContent: boolean;
+  clipData: ClipData | null;
+  selectionText: string;
+  pageTitle: string;
+  pageUrl: string;
+}
