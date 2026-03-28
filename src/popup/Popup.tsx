@@ -4,11 +4,13 @@ import TurndownService from "turndown";
 import { loadConfig } from "@/lib/storage";
 import { createMemo, getContentLengthLimit, uploadAttachment } from "@/lib/api";
 import { formatMemoContent } from "@/lib/formatter";
+import { t, useI18n } from "@/lib/i18n";
 import type { ClipData, ExtensionConfig, PendingClip, UploadedAttachment } from "@/lib/types";
 
 type SaveStatus = "idle" | "saving" | "success" | "error" | "truncated";
 
 export function Popup() {
+  useI18n();
   const [thought, setThought] = useState("");
   const [includeContent, setIncludeContent] = useState(false);
   const [clipData, setClipData] = useState<ClipData | null>(null);
@@ -57,14 +59,14 @@ export function Popup() {
     setExtractError("");
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      if (!tab?.id) throw new Error("无法获取当前标签页");
+      if (!tab?.id) throw new Error(t("errNoTab"));
 
       const results = await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => document.documentElement.outerHTML,
       });
       const html = results[0]?.result as string | undefined;
-      if (!html) throw new Error("无法获取页面内容");
+      if (!html) throw new Error(t("errNoContent"));
 
       const doc = new DOMParser().parseFromString(html, "text/html");
       const base = doc.createElement("base");
@@ -73,7 +75,7 @@ export function Popup() {
 
       const reader = new Readability(doc);
       const article = reader.parse();
-      if (!article) throw new Error("无法提取正文（页面可能不是文章类型）");
+      if (!article) throw new Error(t("errNoArticle"));
 
       const turndown = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced" });
       const markdown = turndown.turndown(article.content);
@@ -83,7 +85,7 @@ export function Popup() {
         byteLength: new Blob([markdown]).size,
       });
     } catch (err) {
-      setExtractError(err instanceof Error ? err.message : "提取失败");
+      setExtractError(err instanceof Error ? err.message : t("errExtractFailed"));
       setClipData(null);
     } finally {
       setExtracting(false);
@@ -106,7 +108,7 @@ export function Popup() {
         setAttachments((prev) => [...prev, attachment]);
       }
     } catch (err) {
-      setSaveError(err instanceof Error ? err.message : "上传失败");
+      setSaveError(err instanceof Error ? err.message : t("errUploadFailed"));
       setSaveStatus("error");
     } finally {
       setUploading(false);
@@ -144,7 +146,7 @@ export function Popup() {
       setTimeout(() => window.close(), truncated ? 2000 : 800);
     } catch (err) {
       setSaveStatus("error");
-      setSaveError(err instanceof Error ? err.message : "保存失败");
+      setSaveError(err instanceof Error ? err.message : t("errSaveFailed"));
     }
   };
 
@@ -158,7 +160,7 @@ export function Popup() {
         <button
           onClick={() => chrome.runtime.openOptionsPage()}
           className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-          title="设置"
+          title={t("settings")}
         >
           <IconSettings />
         </button>
@@ -166,13 +168,7 @@ export function Popup() {
 
       {/* Config missing warning */}
       {configMissing && (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
-          请先在{" "}
-          <button onClick={() => chrome.runtime.openOptionsPage()} className="underline">
-            设置
-          </button>{" "}
-          中配置 Memos 地址和 Token
-        </div>
+        <ConfigMissingBanner />
       )}
 
       {/* Editor card */}
@@ -180,7 +176,7 @@ export function Popup() {
         {/* Selection text preview */}
         {selectionText && (
           <div className="mx-3 mt-3 rounded-md bg-secondary px-3 py-2">
-            <div className="mb-1 text-xs text-muted-foreground">选中文本</div>
+            <div className="mb-1 text-xs text-muted-foreground">{t("selectedText")}</div>
             <div className="max-h-24 overflow-y-auto text-xs text-secondary-foreground leading-relaxed whitespace-pre-wrap">
               {selectionText}
             </div>
@@ -198,7 +194,7 @@ export function Popup() {
             {extracting && (
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <IconSpinner />
-                正在提取...
+                {t("extracting")}
               </div>
             )}
             {extractError && <div className="text-xs text-destructive">{extractError}</div>}
@@ -206,7 +202,7 @@ export function Popup() {
               <div className="space-y-0.5">
                 <div className="truncate text-xs font-medium text-foreground">{clipData.title}</div>
                 <div className="truncate text-xs text-muted-foreground">{pageUrl}</div>
-                <div className="text-xs text-primary">已提取 ({formatBytes(clipData.byteLength)})</div>
+                <div className="text-xs text-primary">{t("extracted")} ({formatBytes(clipData.byteLength)})</div>
               </div>
             )}
           </div>
@@ -217,7 +213,7 @@ export function Popup() {
           ref={textareaRef}
           value={thought}
           onChange={(e) => setThought(e.target.value)}
-          placeholder="记录想法..."
+          placeholder={t("thoughtPlaceholder")}
           rows={4}
           className="w-full resize-none bg-transparent px-4 py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground/70"
         />
@@ -253,7 +249,7 @@ export function Popup() {
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading || !config?.hostUrl || !config?.token}
             className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground disabled:opacity-40"
-            title="上传文件"
+            title={t("uploadFile")}
           >
             {uploading ? <IconSpinner /> : <IconPaperclip />}
           </button>
@@ -280,7 +276,7 @@ export function Popup() {
                 ? "bg-primary/10 text-primary"
                 : "text-muted-foreground hover:bg-secondary hover:text-foreground"
             }`}
-            title={includeContent ? "已附带网页内容" : "附带网页内容"}
+            title={includeContent ? t("webContentOn") : t("webContentOff")}
           >
             <IconGlobe />
           </button>
@@ -290,7 +286,7 @@ export function Popup() {
             type="text"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
-            placeholder="#标签"
+            placeholder={t("tagPlaceholder")}
             className="mx-1 min-w-0 flex-1 rounded-md bg-transparent px-2 py-1 text-xs text-foreground outline-none placeholder:text-muted-foreground/50"
           />
 
@@ -307,14 +303,14 @@ export function Popup() {
             }`}
           >
             {saveStatus === "saving"
-              ? "保存中..."
+              ? t("saving")
               : saveStatus === "success"
-                ? "已保存"
+                ? t("saved")
                 : saveStatus === "truncated"
-                  ? "已保存(截断)"
+                  ? t("savedTruncated")
                   : saveStatus === "error"
-                    ? "重试"
-                    : "保存"}
+                    ? t("retry")
+                    : t("save")}
           </button>
         </div>
       </div>
@@ -325,6 +321,21 @@ export function Popup() {
           {saveError}
         </div>
       )}
+    </div>
+  );
+}
+
+function ConfigMissingBanner() {
+  const marker = "\x00";
+  const msg = t("configMissing", marker);
+  const parts = msg.split(marker);
+  return (
+    <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+      {parts[0]}
+      <button onClick={() => chrome.runtime.openOptionsPage()} className="underline">
+        {t("configMissingLink")}
+      </button>
+      {parts[1]}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import type { FormatInput } from "./types";
+import { t } from "./i18n";
 
 export interface FormatResult {
   content: string;
@@ -43,7 +44,7 @@ export function formatMemoContent(input: FormatInput, maxBytes?: number): Format
 }
 
 function truncateToFit(parts: string[], maxBytes: number): FormatResult {
-  const suffix = "\n\n...\n\n*（正文已截断，原文过长）*";
+  const suffix = `\n\n...\n\n*${t("truncatedSuffix")}*`;
   const suffixBytes = byteLength(suffix);
   const budget = maxBytes - suffixBytes;
 

@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { loadConfig, saveConfig } from "@/lib/storage";
 import { testConnection } from "@/lib/api";
+import { t, useI18n, setLocale } from "@/lib/i18n";
+import type { Locale } from "@/lib/types";
 
 type TestStatus = "idle" | "testing" | "success" | "error";
 
 export function Options() {
+  useI18n();
   const [hostUrl, setHostUrl] = useState("");
   const [token, setToken] = useState("");
   const [defaultTags, setDefaultTags] = useState("#webclipper");
   const [defaultVisibility, setDefaultVisibility] = useState<"PRIVATE" | "PROTECTED" | "PUBLIC">(
     "PRIVATE",
   );
+  const [locale, setLocaleState] = useState<Locale>("auto");
   const [saved, setSaved] = useState(false);
   const [testStatus, setTestStatus] = useState<TestStatus>("idle");
 
@@ -20,8 +24,14 @@ export function Options() {
       setToken(cfg.token);
       setDefaultTags(cfg.defaultTags);
       setDefaultVisibility(cfg.defaultVisibility);
+      setLocaleState(cfg.locale);
     });
   }, []);
+
+  const handleLocaleChange = (newLocale: Locale) => {
+    setLocaleState(newLocale);
+    setLocale(newLocale);
+  };
 
   const handleSave = async () => {
     await saveConfig({
@@ -29,6 +39,7 @@ export function Options() {
       token,
       defaultTags,
       defaultVisibility,
+      locale,
     });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -48,10 +59,10 @@ export function Options() {
 
   return (
     <div className="mx-auto max-w-lg px-6 py-10">
-      <h1 className="mb-8 text-lg font-semibold text-foreground">Memos Web Clipper 设置</h1>
+      <h1 className="mb-8 text-lg font-semibold text-foreground">{t("optionsTitle")}</h1>
 
       <div className="space-y-5">
-        <Field label="Memos 地址" hint="例如 https://memos.example.com">
+        <Field label={t("memosUrl")} hint={t("memosUrlHint")}>
           <input
             type="url"
             value={hostUrl}
@@ -61,7 +72,7 @@ export function Options() {
           />
         </Field>
 
-        <Field label="Access Token" hint="在 Memos 设置 > Access Tokens 中创建">
+        <Field label={t("accessToken")} hint={t("accessTokenHint")}>
           <input
             type="password"
             value={token}
@@ -71,7 +82,7 @@ export function Options() {
           />
         </Field>
 
-        <Field label="默认标签" hint="多个标签用空格分隔">
+        <Field label={t("defaultTags")} hint={t("defaultTagsHint")}>
           <input
             type="text"
             value={defaultTags}
@@ -81,7 +92,7 @@ export function Options() {
           />
         </Field>
 
-        <Field label="默认可见性">
+        <Field label={t("defaultVisibility")}>
           <select
             value={defaultVisibility}
             onChange={(e) =>
@@ -89,9 +100,23 @@ export function Options() {
             }
             className="field-input"
           >
-            <option value="PRIVATE">仅自己可见</option>
-            <option value="PROTECTED">登录用户可见</option>
-            <option value="PUBLIC">公开</option>
+            <option value="PRIVATE">{t("visibilityPrivate")}</option>
+            <option value="PROTECTED">{t("visibilityProtected")}</option>
+            <option value="PUBLIC">{t("visibilityPublic")}</option>
+          </select>
+        </Field>
+
+        <Field label={t("language")}>
+          <select
+            value={locale}
+            onChange={(e) => handleLocaleChange(e.target.value as Locale)}
+            className="field-input"
+          >
+            <option value="auto">{t("languageAuto")}</option>
+            <option value="en">English</option>
+            <option value="zh_CN">简体中文</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
           </select>
         </Field>
 
@@ -100,7 +125,7 @@ export function Options() {
             onClick={handleSave}
             className="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90"
           >
-            {saved ? "已保存" : "保存设置"}
+            {saved ? t("settingsSaved") : t("saveSettings")}
           </button>
           <button
             onClick={handleTest}
@@ -114,12 +139,12 @@ export function Options() {
             }`}
           >
             {testStatus === "testing"
-              ? "测试中..."
+              ? t("testing")
               : testStatus === "success"
-                ? "连接成功"
+                ? t("testSuccess")
                 : testStatus === "error"
-                  ? "连接失败"
-                  : "测试连接"}
+                  ? t("testFailed")
+                  : t("testConnection")}
           </button>
         </div>
       </div>

@@ -1,8 +1,11 @@
+export type Locale = "auto" | "en" | "zh_CN" | "ja" | "ko";
+
 export interface ExtensionConfig {
   hostUrl: string;
   token: string;
   defaultTags: string;
   defaultVisibility: "PRIVATE" | "PROTECTED" | "PUBLIC";
+  locale: Locale;
 }
 
 export interface ClipData {

@@ -7,6 +7,7 @@ const DEFAULT_CONFIG: ExtensionConfig = {
   token: "",
   defaultTags: "#webclipper",
   defaultVisibility: "PRIVATE",
+  locale: "auto",
 };
 
 export async function loadConfig(): Promise<ExtensionConfig> {
