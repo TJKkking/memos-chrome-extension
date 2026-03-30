@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Readability } from "@mozilla/readability";
-import TurndownService from "turndown";
 import { loadConfig } from "@/lib/storage";
 import { createMemo, getContentLengthLimit, uploadAttachment } from "@/lib/api";
 import { formatMemoContent } from "@/lib/formatter";
+import { clipActiveTab, ClipError } from "@/lib/clipper";
 import { t, useI18n } from "@/lib/i18n";
 import type { ClipData, ExtensionConfig, PendingClip, UploadedAttachment } from "@/lib/types";
 
@@ -58,39 +57,23 @@ export function Popup() {
     setExtracting(true);
     setExtractError("");
     try {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      if (!tab?.id) throw new Error(t("errNoTab"));
-
-      const results = await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: () => document.documentElement.outerHTML,
-      });
-      const html = results[0]?.result as string | undefined;
-      if (!html) throw new Error(t("errNoContent"));
-
-      const doc = new DOMParser().parseFromString(html, "text/html");
-      const base = doc.createElement("base");
-      base.href = tab.url || "";
-      doc.head.prepend(base);
-
-      const reader = new Readability(doc);
-      const article = reader.parse();
-      if (!article) throw new Error(t("errNoArticle"));
-
-      const turndown = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced" });
-      const markdown = turndown.turndown(article.content);
-      setClipData({
-        title: article.title || tab.title || "",
-        content: markdown,
-        byteLength: new Blob([markdown]).size,
-      });
+      const result = await clipActiveTab();
+      setClipData(result.data);
+      if (!pageUrl) setPageUrl(result.pageUrl);
+      if (!pageTitle) setPageTitle(result.pageTitle);
     } catch (err) {
-      setExtractError(err instanceof Error ? err.message : t("errExtractFailed"));
+      const msg =
+        err instanceof ClipError
+          ? t(err.messageKey as Parameters<typeof t>[0])
+          : err instanceof Error
+            ? err.message
+            : t("errExtractFailed");
+      setExtractError(msg);
       setClipData(null);
     } finally {
       setExtracting(false);
     }
-  }, []);
+  }, [pageUrl, pageTitle]);
 
   useEffect(() => {
     if (includeContent && !clipData && !extracting) {

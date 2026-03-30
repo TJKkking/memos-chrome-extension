@@ -68,12 +68,12 @@ export async function uploadAttachment(
 
 export async function getContentLengthLimit(hostUrl: string, token: string): Promise<number> {
   try {
-    const response = await fetch(`${baseUrl(hostUrl)}/api/v1/instances/settings`, {
+    const response = await fetch(`${baseUrl(hostUrl)}/api/v1/instance/settings/MEMO_RELATED`, {
       headers: authHeaders(token),
     });
     if (!response.ok) return DEFAULT_CONTENT_LIMIT;
     const data = await response.json();
-    const limit = data?.setting?.memoRelatedSetting?.contentLengthLimit;
+    const limit = data?.memoRelatedSetting?.contentLengthLimit;
     return typeof limit === "number" && limit > 0 ? limit : DEFAULT_CONTENT_LIMIT;
   } catch {
     return DEFAULT_CONTENT_LIMIT;
