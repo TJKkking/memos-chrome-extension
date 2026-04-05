@@ -33,6 +33,22 @@ export interface UploadedAttachment {
   size: number;
 }
 
+export interface MemoItem {
+  name: string;
+  content: string;
+  snippet: string;
+  pinned: boolean;
+  displayTime: string;
+  createTime: string;
+  tags: string[];
+  property?: { title?: string };
+}
+
+export interface ListMemosResponse {
+  memos: MemoItem[];
+  nextPageToken: string;
+}
+
 export interface FormatInput {
   thought: string;
   tags: string;

@@ -1,4 +1,4 @@
-import type { UploadedAttachment } from "./types";
+import type { ListMemosResponse, UploadedAttachment } from "./types";
 
 const DEFAULT_CONTENT_LIMIT = 8192;
 
@@ -77,6 +77,65 @@ export async function getContentLengthLimit(hostUrl: string, token: string): Pro
     return typeof limit === "number" && limit > 0 ? limit : DEFAULT_CONTENT_LIMIT;
   } catch {
     return DEFAULT_CONTENT_LIMIT;
+  }
+}
+
+export async function listMemos(
+  hostUrl: string,
+  token: string,
+  pageSize = 10,
+  pageToken?: string,
+): Promise<ListMemosResponse> {
+  const params = new URLSearchParams({
+    pageSize: String(pageSize),
+    orderBy: "pinned desc, display_time desc",
+  });
+  if (pageToken) params.set("pageToken", pageToken);
+
+  const response = await fetch(`${baseUrl(hostUrl)}/api/v1/memos?${params}`, {
+    headers: authHeaders(token),
+  });
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => "");
+    throw new Error(`${response.status} ${response.statusText}${text ? `: ${text}` : ""}`);
+  }
+
+  const data = await response.json();
+  return {
+    memos: data.memos ?? [],
+    nextPageToken: data.nextPageToken ?? "",
+  };
+}
+
+export async function deleteMemo(hostUrl: string, token: string, memoName: string): Promise<void> {
+  const response = await fetch(`${baseUrl(hostUrl)}/api/v1/${memoName}`, {
+    method: "DELETE",
+    headers: authHeaders(token),
+  });
+  if (!response.ok) {
+    const text = await response.text().catch(() => "");
+    throw new Error(`${response.status} ${response.statusText}${text ? `: ${text}` : ""}`);
+  }
+}
+
+export async function updateMemoPinned(
+  hostUrl: string,
+  token: string,
+  memoName: string,
+  pinned: boolean,
+): Promise<void> {
+  const response = await fetch(
+    `${baseUrl(hostUrl)}/api/v1/${memoName}?updateMask=pinned`,
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", ...authHeaders(token) },
+      body: JSON.stringify({ pinned }),
+    },
+  );
+  if (!response.ok) {
+    const text = await response.text().catch(() => "");
+    throw new Error(`${response.status} ${response.statusText}${text ? `: ${text}` : ""}`);
   }
 }
 

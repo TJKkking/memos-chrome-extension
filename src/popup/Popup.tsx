@@ -4,6 +4,7 @@ import { createMemo, getContentLengthLimit, uploadAttachment } from "@/lib/api";
 import { formatMemoContent } from "@/lib/formatter";
 import { clipActiveTab, ClipError } from "@/lib/clipper";
 import { t, useI18n } from "@/lib/i18n";
+import { MemoList, type MemoListHandle } from "./MemoList";
 import type { ClipData, ExtensionConfig, PendingClip, UploadedAttachment } from "@/lib/types";
 
 type SaveStatus = "idle" | "saving" | "success" | "error" | "truncated";
@@ -26,6 +27,7 @@ export function Popup() {
   const [uploading, setUploading] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const memoListRef = useRef<MemoListHandle>(null);
 
   useEffect(() => {
     loadConfig().then((cfg) => {
@@ -126,7 +128,7 @@ export function Popup() {
         attachments.length > 0 ? attachments : undefined,
       );
       setSaveStatus(truncated ? "truncated" : "success");
-      setTimeout(() => window.close(), truncated ? 2000 : 800);
+      memoListRef.current?.refresh();
     } catch (err) {
       setSaveStatus("error");
       setSaveError(err instanceof Error ? err.message : t("errSaveFailed"));
@@ -303,6 +305,11 @@ export function Popup() {
         <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-600 break-all">
           {saveError}
         </div>
+      )}
+
+      {/* Memo list */}
+      {config?.hostUrl && config?.token && (
+        <MemoList ref={memoListRef} config={config} />
       )}
     </div>
   );

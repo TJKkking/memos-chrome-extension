@@ -48,5 +48,25 @@
   "truncatedSuffix": { "message": "（正文已截断，原文过长）" },
 
   "language": { "message": "语言" },
-  "languageAuto": { "message": "自动（跟随浏览器）" }
+  "languageAuto": { "message": "自动（跟随浏览器）" },
+
+  "recentMemos": { "message": "最近的 Memo" },
+  "loadingMemos": { "message": "加载中..." },
+  "noMemos": { "message": "暂无内容" },
+  "loadMoreFailed": { "message": "加载失败，点击重试" },
+  "pinnedMemo": { "message": "置顶" },
+  "justNow": { "message": "刚刚" },
+  "minutesAgo": { "message": "$COUNT$ 分钟前", "placeholders": { "count": { "content": "$1" } } },
+  "hoursAgo": { "message": "$COUNT$ 小时前", "placeholders": { "count": { "content": "$1" } } },
+  "daysAgo": { "message": "$COUNT$ 天前", "placeholders": { "count": { "content": "$1" } } },
+
+  "copyContent": { "message": "复制内容" },
+  "copied": { "message": "已复制" },
+  "pinMemo": { "message": "置顶" },
+  "unpinMemo": { "message": "取消置顶" },
+  "deleteMemo": { "message": "删除" },
+  "confirmDelete": { "message": "确认删除？" },
+  "openInMemos": { "message": "在 Memos 中打开" },
+  "errDeleteFailed": { "message": "删除失败" },
+  "errPinFailed": { "message": "置顶/取消置顶失败" }
 }

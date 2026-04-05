@@ -10,6 +10,7 @@ A Chrome extension for [Memos](https://github.com/usememos/memos) — clip web p
 - **Web Page Clipping** — Extract full article content as Markdown using Readability + Turndown, with one toggle.
 - **Selected Text Clipping** — Right-click any selected text on a page and send it to Memos with source URL.
 - **File Upload** — Attach files directly to your memos via the built-in upload button.
+- **Memo List** — Browse recent memos directly in the popup with Markdown rendering. Pinned memos appear first. Hover to copy, pin/unpin, delete, or open in Memos web UI. Scroll down to load more.
 - **Configurable Tags** — Auto-tag clipped content (default: `#webclipper`) for easy filtering in Memos.
 - **Memos-native UI** — Matches the Memos design language (OKLch color tokens, card-based editor layout).
 
@@ -109,7 +110,7 @@ pnpm lint           # TypeScript type check
 | UI | React 18 + Tailwind CSS v4 |
 | Build | Vite |
 | Content extraction | [@mozilla/readability](https://github.com/mozilla/readability) + [Turndown](https://github.com/mixmark-io/turndown) |
-| API | Memos REST API (`POST /api/v1/memos`, `POST /api/v1/attachments`) |
+| API | Memos REST API (`/api/v1/memos`, `/api/v1/attachments`) |
 | Auth | Personal Access Token (PAT) via `Authorization: Bearer` header |
 | Storage | `chrome.storage.sync` (config), `chrome.storage.session` (pending clips) |
 
@@ -131,7 +132,8 @@ memos-chrome-extension/
 │   │   └── formatter.ts           # Memo content formatter
 │   ├── popup/
 │   │   ├── main.tsx               # Popup entry
-│   │   └── Popup.tsx              # Main popup component
+│   │   ├── Popup.tsx              # Main popup component
+│   │   └── MemoList.tsx           # Memo list with Markdown rendering
 │   └── options/
 │       ├── main.tsx               # Options entry
 │       └── Options.tsx            # Settings page component

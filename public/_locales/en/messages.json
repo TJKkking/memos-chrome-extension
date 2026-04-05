@@ -48,5 +48,25 @@
   "truncatedSuffix": { "message": "(Content truncated, original too long)" },
 
   "language": { "message": "Language" },
-  "languageAuto": { "message": "Auto (follow browser)" }
+  "languageAuto": { "message": "Auto (follow browser)" },
+
+  "recentMemos": { "message": "Recent Memos" },
+  "loadingMemos": { "message": "Loading..." },
+  "noMemos": { "message": "No memos yet" },
+  "loadMoreFailed": { "message": "Failed to load, tap to retry" },
+  "pinnedMemo": { "message": "Pinned" },
+  "justNow": { "message": "just now" },
+  "minutesAgo": { "message": "$COUNT$ min ago", "placeholders": { "count": { "content": "$1" } } },
+  "hoursAgo": { "message": "$COUNT$h ago", "placeholders": { "count": { "content": "$1" } } },
+  "daysAgo": { "message": "$COUNT$d ago", "placeholders": { "count": { "content": "$1" } } },
+
+  "copyContent": { "message": "Copy content" },
+  "copied": { "message": "Copied" },
+  "pinMemo": { "message": "Pin" },
+  "unpinMemo": { "message": "Unpin" },
+  "deleteMemo": { "message": "Delete" },
+  "confirmDelete": { "message": "Confirm delete?" },
+  "openInMemos": { "message": "Open in Memos" },
+  "errDeleteFailed": { "message": "Delete failed" },
+  "errPinFailed": { "message": "Pin/Unpin failed" }
 }

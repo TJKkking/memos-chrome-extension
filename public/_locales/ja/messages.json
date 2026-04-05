@@ -48,5 +48,25 @@
   "truncatedSuffix": { "message": "（本文が切り詰められました。原文が長すぎます）" },
 
   "language": { "message": "言語" },
-  "languageAuto": { "message": "自動（ブラウザに従う）" }
+  "languageAuto": { "message": "自動（ブラウザに従う）" },
+
+  "recentMemos": { "message": "最近のメモ" },
+  "loadingMemos": { "message": "読み込み中..." },
+  "noMemos": { "message": "メモがありません" },
+  "loadMoreFailed": { "message": "読み込み失敗、タップして再試行" },
+  "pinnedMemo": { "message": "ピン留め" },
+  "justNow": { "message": "たった今" },
+  "minutesAgo": { "message": "$COUNT$分前", "placeholders": { "count": { "content": "$1" } } },
+  "hoursAgo": { "message": "$COUNT$時間前", "placeholders": { "count": { "content": "$1" } } },
+  "daysAgo": { "message": "$COUNT$日前", "placeholders": { "count": { "content": "$1" } } },
+
+  "copyContent": { "message": "コピー" },
+  "copied": { "message": "コピー済み" },
+  "pinMemo": { "message": "ピン留め" },
+  "unpinMemo": { "message": "ピン解除" },
+  "deleteMemo": { "message": "削除" },
+  "confirmDelete": { "message": "削除しますか？" },
+  "openInMemos": { "message": "Memosで開く" },
+  "errDeleteFailed": { "message": "削除に失敗しました" },
+  "errPinFailed": { "message": "ピン留め操作に失敗しました" }
 }

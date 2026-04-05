@@ -34,4 +34,62 @@ body {
   .field-input {
     @apply w-full rounded-md border border-border bg-transparent px-3 py-1.5 text-sm text-foreground shadow-xs outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-ring;
   }
+
+  .memo-content strong {
+    @apply font-semibold;
+  }
+  .memo-content em {
+    @apply italic;
+  }
+  .memo-content del {
+    @apply line-through opacity-60;
+  }
+  .memo-content .memo-link {
+    @apply text-primary underline underline-offset-2;
+  }
+  .memo-content .memo-code-inline {
+    @apply rounded bg-secondary px-1 py-0.5 text-[10px] font-mono text-secondary-foreground;
+  }
+  .memo-content .memo-code-block {
+    @apply my-1 block rounded bg-secondary px-2 py-1 text-[10px] font-mono text-secondary-foreground whitespace-pre-wrap;
+  }
+  .memo-content .memo-h {
+    @apply font-semibold text-foreground;
+  }
+  .memo-content h1.memo-h {
+    @apply text-sm;
+  }
+  .memo-content h2.memo-h {
+    @apply text-xs;
+  }
+  .memo-content h3.memo-h,
+  .memo-content h4.memo-h,
+  .memo-content h5.memo-h,
+  .memo-content h6.memo-h {
+    @apply text-xs;
+  }
+  .memo-content .memo-hr {
+    @apply my-1.5 border-t border-border;
+  }
+  .memo-content .memo-list {
+    @apply my-0.5 space-y-0.5 pl-4;
+  }
+  .memo-content .memo-list li {
+    @apply list-disc;
+  }
+  .memo-content .memo-ol li {
+    @apply list-decimal;
+  }
+  .memo-content .memo-blockquote {
+    @apply border-l-2 border-muted-foreground/30 pl-2 italic text-muted-foreground;
+  }
+  .memo-content .memo-checkbox {
+    @apply mr-0.5;
+  }
+  .memo-content .memo-checkbox.checked {
+    @apply text-primary;
+  }
+  .memo-content .memo-img {
+    @apply my-1 max-h-20 rounded;
+  }
 }

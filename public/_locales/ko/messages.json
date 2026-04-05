@@ -48,5 +48,25 @@
   "truncatedSuffix": { "message": "(본문이 잘렸습니다. 원문이 너무 깁니다)" },
 
   "language": { "message": "언어" },
-  "languageAuto": { "message": "자동 (브라우저 따름)" }
+  "languageAuto": { "message": "자동 (브라우저 따름)" },
+
+  "recentMemos": { "message": "최근 메모" },
+  "loadingMemos": { "message": "로딩 중..." },
+  "noMemos": { "message": "메모가 없습니다" },
+  "loadMoreFailed": { "message": "로딩 실패, 탭하여 재시도" },
+  "pinnedMemo": { "message": "고정됨" },
+  "justNow": { "message": "방금" },
+  "minutesAgo": { "message": "$COUNT$분 전", "placeholders": { "count": { "content": "$1" } } },
+  "hoursAgo": { "message": "$COUNT$시간 전", "placeholders": { "count": { "content": "$1" } } },
+  "daysAgo": { "message": "$COUNT$일 전", "placeholders": { "count": { "content": "$1" } } },
+
+  "copyContent": { "message": "복사" },
+  "copied": { "message": "복사됨" },
+  "pinMemo": { "message": "고정" },
+  "unpinMemo": { "message": "고정 해제" },
+  "deleteMemo": { "message": "삭제" },
+  "confirmDelete": { "message": "삭제하시겠습니까?" },
+  "openInMemos": { "message": "Memos에서 열기" },
+  "errDeleteFailed": { "message": "삭제 실패" },
+  "errPinFailed": { "message": "고정/해제 실패" }
 }
